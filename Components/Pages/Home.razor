@@ -1,0 +1,36 @@
+﻿@inherits HomeBase
+@attribute [StreamRendering(true)]
+@rendermode InteractiveServer
+@page "/"
+
+<PageTitle>All Products in inventory</PageTitle>
+
+<h1>All products</h1>
+
+
+
+@if (Products != null)
+{
+    OnInitialized();
+    if (Products != null)
+    {
+        <div style="margin-left: 15em; margin-right: 15em;">
+            <DxGrid Data="@Products"
+                    FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Always"
+                    EditMode="GridEditMode.EditRow"
+                    DataItemDeleting="OnDataItemDeleting">
+                <Columns>
+                    <DxGridCommandColumn Width="150px" />
+                    <DxGridDataColumn FieldName="Name" Width="30%" />
+                    <DxGridDataColumn FieldName="Price" Width="30%" />
+                    <DxGridDataColumn FieldName="DateAdded" DisplayFormat="D" Width="40%">
+                        <FilterMenuTemplate>
+                            <DateRange FilterContext="context" />
+                        </FilterMenuTemplate>
+                    </DxGridDataColumn>
+                </Columns>
+            </DxGrid>
+        </div>
+    }
+}
+
