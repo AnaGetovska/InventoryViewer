@@ -3,11 +3,9 @@
 @rendermode InteractiveServer
 @page "/"
 
-<PageTitle>All Products in inventory</PageTitle>
+<PageTitle>All Products in Inventory</PageTitle>
 
-<h1>All products</h1>
-
-
+<h1 style="text-align: center; margin: 1em">All Products in Inventory</h1>
 
 @if (Products != null)
 {
@@ -16,14 +14,20 @@
     {
         <div style="margin-left: 15em; margin-right: 15em;">
             <DxGrid Data="@Products"
+                    ShowSearchBox="true"
                     FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Always"
                     EditMode="GridEditMode.EditRow"
-                    DataItemDeleting="OnDataItemDeleting">
+                    EditModelSaving="OnEditModelSaving">
                 <Columns>
-                    <DxGridCommandColumn Width="150px" />
-                    <DxGridDataColumn FieldName="Name" Width="30%" />
-                    <DxGridDataColumn FieldName="Price" Width="30%" />
-                    <DxGridDataColumn FieldName="DateAdded" DisplayFormat="D" Width="40%">
+                    <DxGridCommandColumn Width="10%" DeleteButtonVisible="false" NewButtonVisible="false" />
+                    <DxGridDataColumn FieldName="Name" Width="25%" />
+                    <DxGridDataColumn FieldName="Price" DisplayFormat="c" Width="15%" />
+                    <DxGridDataColumn FieldName="DateAdded" DisplayFormat="D" Width="25%"  ReadOnly>
+                        <FilterMenuTemplate>
+                            <DateRange FilterContext="context" />
+                        </FilterMenuTemplate>
+                    </DxGridDataColumn>
+                    <DxGridDataColumn FieldName="LastModified" DisplayFormat="D" Width="25%"  ReadOnly>
                         <FilterMenuTemplate>
                             <DateRange FilterContext="context" />
                         </FilterMenuTemplate>

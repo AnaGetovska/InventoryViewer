@@ -3,12 +3,13 @@ using InventoryViewer.Services;
 using InventoryViewer.Models;
 using DevExpress.Blazor;
 using DevExpress.ClipboardSource.SpreadsheetML;
+using System.ComponentModel.DataAnnotations;
 
 namespace InventoryViewer.Components.Pages
 {
     public class HomeBase : ComponentBase
     {
-        [Inject] IProductService ProductsService { get; set; }
+        [Inject] IService<ProductModel> ProductsService { get; set; }
         [Inject] ILogger<HomeBase> Logger { get; set; }
 
         protected IEnumerable<ProductModel> Products { get; set; }
@@ -37,23 +38,21 @@ namespace InventoryViewer.Components.Pages
             }
         }
 
-        protected void OnDataItemDeleting(GridDataItemDeletingEventArgs e)
+        protected async Task OnEditModelSaving(GridEditModelSavingEventArgs e)
         {
-            Console.WriteLine(e);
-            //Data.Remove(e.DataItem as WeatherForecast);
+            if (!e.IsNew)
+            {
+                try
+                {
+                    ProductsService.UpdateRecord((ProductModel)e.EditModel);
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogError("Record updateing was unsuccessfull:");
+                    Logger.LogError(ex.ToString());
+                }
+
+            }
         }
-
-        //void OnEditModelSaving(GridEditModelSavingEventArgs e)
-        //{
-        //    var editModel = (WeatherForecast)e.EditModel;
-        //    var dataItem = e.IsNew ? new WeatherForecast() : (WeatherForecast)e.DataItem;
-
-        //    dataItem.Date = editModel.Date;
-        //    dataItem.TemperatureC = editModel.TemperatureC;
-        //    dataItem.CloudCover = editModel.CloudCover;
-
-        //    if (e.IsNew)
-        //        Data.Add(dataItem as WeatherForecast);
-        //}
     }
 }

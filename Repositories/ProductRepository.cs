@@ -27,12 +27,12 @@ namespace InventoryViewer.Repositories
 
         public void Delete(int id)
         {
-            var sql = "DELETE FROM Products WHERE Id = @id";
+            var sql = "DELETE FROM Products WHERE Id = @Id";
             using (var connection = new SqlConnection(_config.GetConnectionString("Default")))
             {
-                connection.Query<ProductModel>(sql, new { id = id });
+                connection.Query<ProductModel>(sql, new { Id = id });
             }
-            _logger.LogTrace($"Products with Id = {id} was deleted.");
+            _logger.LogTrace($"Product with Id = {id} was deleted.");
         }
 
         public IEnumerable<ProductModel> GetAll()
@@ -48,26 +48,27 @@ namespace InventoryViewer.Repositories
 
         public ProductModel GetById(int id)
         {
-            var sql = "SELECT * FROM Products WHERE Id = @id";
+            var sql = "SELECT * FROM Products WHERE Id = @Id";
             using (var connection = new SqlConnection(_config.GetConnectionString("Default")))
             {
-                var result = connection.Query<ProductModel>(sql, new { id = id }).First();
-                _logger.LogTrace($"Products with Id = {id} was fetched successfully");
+                var result = connection.Query<ProductModel>(sql, new { Id = id }).First();
+                _logger.LogTrace($"Product with Id = {id} was fetched successfully");
                 return result;
             }
         }
 
-        public void Update(int id, KeyValuePair<string, object> updatedRecord)
+        public void Update(ProductModel updatedRecord)
         {
-            var sql = "UPDATE Products SET @columnName = @columnValue WHERE Id = @id";
+            var sql = "USE Inventory UPDATE Products SET Name = @Name, Price = @Price, LastModified = @LastModified WHERE Id = @Id";
             using (var connection = new SqlConnection(_config.GetConnectionString("Default")))
             {
                 connection.Query<ProductModel>(sql, new {
-                    columnName = updatedRecord.Key,
-                    columnValue = updatedRecord.Value,
-                    id = id
+                    Name = updatedRecord.Name,
+                    Price = updatedRecord.Price,
+                    LastModified = updatedRecord.LastModified,
+                    Id = updatedRecord.Id
                 });
-                _logger.LogTrace($"Products with Id = {id} was updated successfully");
+                _logger.LogTrace($"Product with Id = {updatedRecord.Id} was updated successfully");
             }
         }
     }

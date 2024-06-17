@@ -3,7 +3,7 @@ using InventoryViewer.Repositories;
 
 namespace InventoryViewer.Services
 {
-    public class ProductService : IProductService
+    public class ProductService : IService<ProductModel>
     {
         private readonly ILogger _logger;
         private readonly ProductRepository _repo;
@@ -16,10 +16,11 @@ namespace InventoryViewer.Services
         {
             return _repo.GetAll();
         }
-
-        public void UpdateRecord(int productId, KeyValuePair<string, object> newRecord)
+      
+        public void UpdateRecord(ProductModel updatedData)
         {
-            _repo.Update(productId, newRecord);
+            updatedData.LastModified = DateTime.UtcNow;
+            _repo.Update(updatedData);
         }
     }
 }

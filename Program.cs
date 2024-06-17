@@ -1,4 +1,5 @@
 using InventoryViewer.Components;
+using InventoryViewer.Models;
 using InventoryViewer.Repositories;
 using InventoryViewer.Services;
 using InventoryViewer.Utils;
@@ -17,7 +18,7 @@ builder.Services.AddDevExpressBlazor(options => {
 });
 builder.Services.AddSingleton<DatabaseSeeder>();
 builder.Services.AddSingleton<ProductRepository>();
-builder.Services.AddSingleton<IProductService, ProductService>();
+builder.Services.AddSingleton<IService<ProductModel>, ProductService>();
 
 
 // Configure the HTTP request pipeline.
