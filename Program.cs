@@ -18,7 +18,7 @@ builder.Services.AddDevExpressBlazor(options => {
 });
 builder.Services.AddSingleton<DatabaseSeeder>();
 builder.Services.AddSingleton<ProductRepository>();
-builder.Services.AddSingleton<IService<ProductModel>, ProductService>();
+builder.Services.AddSingleton<IProductService<ProductModel>, ProductService>();
 
 
 // Configure the HTTP request pipeline.

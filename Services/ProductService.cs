@@ -1,9 +1,10 @@
 ﻿using InventoryViewer.Models;
 using InventoryViewer.Repositories;
+using InventoryViewer.Utils;
 
 namespace InventoryViewer.Services
 {
-    public class ProductService : IService<ProductModel>
+    public class ProductService : IProductService<ProductModel>
     {
         private readonly ILogger _logger;
         private readonly ProductRepository _repo;
@@ -21,6 +22,16 @@ namespace InventoryViewer.Services
         {
             updatedData.LastModified = DateTime.UtcNow;
             _repo.Update(updatedData);
+        }
+
+        public void AddRecord(ProductModel newRecord)
+        {
+            _repo.Add(newRecord);
+        }
+
+        public void DeleteRecord(int id)
+        {
+            _repo.Delete(id);
         }
     }
 }

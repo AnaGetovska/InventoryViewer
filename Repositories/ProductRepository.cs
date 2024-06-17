@@ -8,26 +8,28 @@ namespace InventoryViewer.Repositories
     {
         private readonly IConfiguration _config;
         private readonly ILogger _logger;
+        private readonly string _dbName = "Inventory";
 
         public ProductRepository(IConfiguration config, ILogger<ProductRepository> logger)
         {
             _config = config;
             _logger = logger;
+            _dbName = _config.GetRequiredSection("DB:Name")?.Value ?? "Inventory";
         }
 
         public void Add(ProductModel newItem)
         {
-            var sql = "INSERT INTO Products (Name, Price) VALUES (@Name, @Price)";
+            var sql = $"USE {_dbName} INSERT INTO Products (Name, Price, DateAdded, LastModified) VALUES (@Name, @Price, @DateAdded, @LastModified)";
             using (var connection = new SqlConnection(_config.GetConnectionString("Default")))
             {
-                connection.Query<ProductModel>(sql, new { Name = newItem.Name, Price = newItem.Price });
+                connection.Query<ProductModel>(sql, new { Name = newItem.Name, Price = newItem.Price, DateAdded = newItem.DateAdded, LastModified = newItem.LastModified });
             }
             _logger.LogTrace("All products were fetched successfully");
         }
 
         public void Delete(int id)
         {
-            var sql = "DELETE FROM Products WHERE Id = @Id";
+            var sql = $"USE {_dbName} DELETE FROM Products WHERE Id = @Id";
             using (var connection = new SqlConnection(_config.GetConnectionString("Default")))
             {
                 connection.Query<ProductModel>(sql, new { Id = id });
@@ -37,7 +39,7 @@ namespace InventoryViewer.Repositories
 
         public IEnumerable<ProductModel> GetAll()
         {
-            var sql = "USE Inventory SELECT * FROM Products";
+            var sql = $"USE {_dbName} SELECT * FROM Products";
             using (var connection = new SqlConnection(_config.GetConnectionString("Default")))
             {
                 var result = connection.Query<ProductModel>(sql).ToList();
@@ -48,7 +50,7 @@ namespace InventoryViewer.Repositories
 
         public ProductModel GetById(int id)
         {
-            var sql = "SELECT * FROM Products WHERE Id = @Id";
+            var sql = $"USE {_dbName} SELECT * FROM Products WHERE Id = @Id";
             using (var connection = new SqlConnection(_config.GetConnectionString("Default")))
             {
                 var result = connection.Query<ProductModel>(sql, new { Id = id }).First();
@@ -59,7 +61,7 @@ namespace InventoryViewer.Repositories
 
         public void Update(ProductModel updatedRecord)
         {
-            var sql = "USE Inventory UPDATE Products SET Name = @Name, Price = @Price, LastModified = @LastModified WHERE Id = @Id";
+            var sql = $"USE {_dbName} UPDATE Products SET Name = @Name, Price = @Price, LastModified = @LastModified WHERE Id = @Id";
             using (var connection = new SqlConnection(_config.GetConnectionString("Default")))
             {
                 connection.Query<ProductModel>(sql, new {

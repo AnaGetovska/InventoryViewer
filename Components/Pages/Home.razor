@@ -17,17 +17,18 @@
                     ShowSearchBox="true"
                     FilterMenuButtonDisplayMode="GridFilterMenuButtonDisplayMode.Always"
                     EditMode="GridEditMode.EditRow"
+                    DataItemDeleting="OnDataItemDeleting"
                     EditModelSaving="OnEditModelSaving">
                 <Columns>
-                    <DxGridCommandColumn Width="10%" DeleteButtonVisible="false" NewButtonVisible="false" />
+                    <DxGridCommandColumn Width="10%" />
                     <DxGridDataColumn FieldName="Name" Width="25%" />
                     <DxGridDataColumn FieldName="Price" DisplayFormat="c" Width="15%" />
-                    <DxGridDataColumn FieldName="DateAdded" DisplayFormat="D" Width="25%"  ReadOnly>
+                    <DxGridDataColumn FieldName="DateAdded" DisplayFormat="D" Width="25%" ReadOnly>
                         <FilterMenuTemplate>
                             <DateRange FilterContext="context" />
                         </FilterMenuTemplate>
                     </DxGridDataColumn>
-                    <DxGridDataColumn FieldName="LastModified" DisplayFormat="D" Width="25%"  ReadOnly>
+                    <DxGridDataColumn FieldName="LastModified" DisplayFormat="D" Width="25%" ReadOnly>
                         <FilterMenuTemplate>
                             <DateRange FilterContext="context" />
                         </FilterMenuTemplate>

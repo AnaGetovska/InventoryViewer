@@ -78,28 +78,20 @@ namespace InventoryViewer.Utils
         {
             var sql = $"USE {databaseName} INSERT INTO Products (Name, Price, DateAdded) VALUES (@Name, @Price, @DateAdded);";
             object[] parameters = {
-                new { Name = "Bananas", Price = 12.99, DateAdded = RandomDay() },
-                new { Name = "Potatoes", Price = 2.99, DateAdded = RandomDay()  },
-                new { Name = "Strawberies", Price = 6.40, DateAdded = RandomDay()  },
-                new { Name = "Peaches", Price = 2.59, DateAdded = RandomDay()  },
-                new { Name = "Tomatoes", Price = 1.69, DateAdded = RandomDay()  },
-                new { Name = "Cucumbers", Price = 4.50, DateAdded = RandomDay() },
-                new { Name = "Grapes", Price = 3.70, DateAdded = RandomDay() },
-                new { Name = "Pineapples", Price = 7.20, DateAdded = RandomDay() }
+                new { Name = "Bananas", Price = 12.99, DateAdded = DateTimeUtils.GetRandomDate() },
+                new { Name = "Potatoes", Price = 2.99, DateAdded = DateTimeUtils.GetRandomDate()  },
+                new { Name = "Strawberies", Price = 6.40, DateAdded = DateTimeUtils.GetRandomDate()  },
+                new { Name = "Peaches", Price = 2.59, DateAdded = DateTimeUtils.GetRandomDate()  },
+                new { Name = "Tomatoes", Price = 1.69, DateAdded = DateTimeUtils.GetRandomDate()  },
+                new { Name = "Cucumbers", Price = 4.50, DateAdded = DateTimeUtils.GetRandomDate() },
+                new { Name = "Grapes", Price = 3.70, DateAdded = DateTimeUtils.GetRandomDate() },
+                new { Name = "Pineapples", Price = 7.20, DateAdded = DateTimeUtils.GetRandomDate() }
             };
 
             using (var connection = new SqlConnection(_config.GetConnectionString("Default")))
             {
                 connection.Execute(sql, parameters);
             }
-        }
-
-        private DateTime RandomDay()
-        {
-            Random random = new Random();
-            DateTime start = new DateTime(2020, 1, 1);
-            int range = (DateTime.Today - start).Days;
-            return start.AddDays(random.Next(range));
         }
     }
 }
