@@ -1,15 +1,12 @@
 ﻿using InventoryViewer.Models;
 using InventoryViewer.Repositories;
-using InventoryViewer.Utils;
 
 namespace InventoryViewer.Services
 {
     public class ProductService : IProductService<ProductModel>
     {
-        private readonly ILogger _logger;
         private readonly ProductRepository _repo;
-        public ProductService(ILogger<ProductService> logger, ProductRepository repo) {
-            _logger = logger;
+        public ProductService(ProductRepository repo) {
             _repo = repo;
         }
 

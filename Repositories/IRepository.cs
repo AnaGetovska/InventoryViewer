@@ -1,6 +1,4 @@
-﻿using InventoryViewer.Models;
-
-namespace InventoryViewer.Repositories
+﻿namespace InventoryViewer.Repositories
 {
     public interface IRepository<T>
     {

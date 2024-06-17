@@ -1,6 +1,4 @@
-﻿using InventoryViewer.Models;
-
-namespace InventoryViewer.Services
+﻿namespace InventoryViewer.Services
 {
     public interface IProductService<T>
     {

@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Components;
-using InventoryViewer.Services;
+﻿using DevExpress.Blazor;
 using InventoryViewer.Models;
-using DevExpress.Blazor;
-using DevExpress.ClipboardSource.SpreadsheetML;
-using System.ComponentModel.DataAnnotations;
-using InventoryViewer.Utils;
+using InventoryViewer.Services;
+using Microsoft.AspNetCore.Components;
 
 namespace InventoryViewer.Components.Pages
 {
@@ -75,21 +72,6 @@ namespace InventoryViewer.Components.Pages
             {
                 Logger.LogError("Product deletion failed:");
                 Logger.LogError(ex.ToString());
-            }
-        }
-
-        protected void OnCustomizeEditModel(GridCustomizeEditModelEventArgs e)
-        {
-
-            if (e.IsNew)
-            {
-                var DateAdded = DateTimeUtils.GetRandomDate();
-                var LastModified = DateTime.UtcNow.Date;
-                var newProduct = (ProductModel)e.EditModel;
-                newProduct.Name = "Enter product name";
-                newProduct.Price = 0;
-                newProduct.DateAdded = DateAdded;
-                newProduct.LastModified = LastModified;
             }
         }
     }
